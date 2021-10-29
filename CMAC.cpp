@@ -22,18 +22,27 @@ vector<vector<float> > transVec(vector<vector<float> > mat){
     return tempVec;
 }
 
-void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int numOfTierI/**层数*/,int numOfQualifyI, int numOfInputI){
+void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int numOfTierI/**层数*/,int numOfQualifyI){
     CMAC::dataSet = move(dataSetI);
     CMAC::labels = move(labelsI);
     CMAC::numOfTier = numOfTierI;
     CMAC::numOfQualify = numOfQualifyI;
-    CMAC::numOfInput = numOfInputI;
+    CMAC::numOfInput = (int) CMAC::dataSet[0].size();
+
     // init with normalize all data
     normalization();
     // get the standard of qualification matrix
     getQualVec();
     // qualified all data
     getAllQualData();
+
+    //init the origin pointer
+    int numOfAC = 0;
+    for(auto & i : qualVec){
+        numOfAC += ((int)i.size() + 1)*((int)i.size() + 1);
+    }
+    printf("num of ac %d \n",numOfAC);
+    CMAC::origin = (float *) malloc(sizeof(float) * numOfAC);
 }
 
 void CMAC::normalization(){
@@ -63,7 +72,7 @@ vector<vector<int> > CMAC::get1QualData(vector<float> data) {
         for(int j = 0; j < CMAC::numOfTier; j++){
             int tmpInt = 0;
             for(auto & k : CMAC::qualVec[j]){
-                if (10*i > k){
+                if (10*i >= k){
                     tmpInt++;
                 }else{
                     break;
@@ -80,5 +89,10 @@ void CMAC::getAllQualData() {
     for(auto & i : CMAC::dataSet){
         CMAC::qualData.push_back(get1QualData(i));
     }
+}
+
+int CMAC::hash(vector<int>) {
+
+    return 0;
 }
 

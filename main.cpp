@@ -11,13 +11,12 @@ int main(){
     *(p1+1) = 1.23;
     printf("%f\n", *(p1+1));
 
-    vector<vector<float> > a = {{1,23,456},{45,6,14},{2,43,5}};
+    vector<vector<float> > a = {{3,4,6},{4.5,6,8},{2,7,5}};
     vector<float> labelA = {1,0,1};
 
-    newCmac.initCMAC(a,labelA,3,9,3);
+    newCmac.initCMAC(a,labelA,3,10);
     printf("before normalization\n");
     printVec2D(a);
-    newCmac.normalization();
     printf("after normalization\n");
     printVec2D(newCmac.dataSet);
     printf("print the qualification rules\n");
@@ -28,7 +27,7 @@ int main(){
         printf("\n");
     }
 
-    printf("qualification of data a[0]={1,23,456}(0.00000 0.45946 1.00000):\n");
+    printf("qualification of data a[0]={3,4,6}(0.40000 0.00000 0.33333):\n");
     for(auto & i : newCmac.get1QualData(newCmac.dataSet[0])){
         for(auto & j : i){
             printf("%lu \t",j);
@@ -47,7 +46,6 @@ int main(){
         }
         printf("\n");
     }
-
 
     return 0;
 }

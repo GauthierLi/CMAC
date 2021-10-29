@@ -9,7 +9,7 @@ vector<vector<float> > transVec(vector<vector<float> > mat);
 class CMAC
 {
     public:
-        float* origin = (float*)malloc(sizeof(float));
+        float* origin = nullptr;
         vector<vector<float> > dataSet;
         vector<vector<vector<int> > > qualData;
         // qualVec is used for store the standard of qualification matrix
@@ -25,7 +25,7 @@ class CMAC
 
         void normalization();
         void initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,
-                           int numOfTierI/**层数*/,int numOfQualifyI, int numOfInputI);
+                           int numOfTierI/**层数*/,int numOfQualifyI);
         void getQualVec();
         vector<vector<int> > get1QualData(vector<float> data);
         void getAllQualData();

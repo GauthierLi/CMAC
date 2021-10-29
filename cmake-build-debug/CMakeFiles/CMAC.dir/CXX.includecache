@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-E:/C++/CMAC/CMAC.cpp
-CMAC.h
-E:/C++/CMAC/CMAC.h
-dataKit.h
-E:/C++/CMAC/dataKit.h
-utility
--
-vector
--
-cstdlib
--
-iostream
--
-
 E:/C++/CMAC/CMAC.h
 vector
 -
