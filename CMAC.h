@@ -12,10 +12,14 @@ class CMAC
     public:
         float* origin = nullptr;
         vector<vector<float> > dataSet;
+        vector<float> labels;
+        // use to recording the min and max to scale the data
+        vector<float> mini , maxi ;
+
         vector<vector<vector<int> > > qualData;
         // qualVec is used for store the standard of qualification matrix
         vector<vector<int> > qualVec;
-        vector<float> labels;
+
         //used to map qualData to real address
         map<int, float> storageUnit;
 
@@ -24,25 +28,27 @@ class CMAC
         // dimension of Tier
         int numOfTier;
         int numOfQualify;
-        int numOfOutput;
+        vector<float> output;
 
         //print all information of parameters
         void lookLook();
 
         void normalization();
         void initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,
-                           int numOfTierI/**层数*/,int numOfQualifyI);
+                           int numOfTierI/**层数*/,int numOfQualifyI, float learnRate=0.2);
         void getQualVec();
         vector<vector<int> > get1QualData(vector<float> data);
         void getAllQualData();
 
         // mapping to real location
-        int vec2Int(vector<int> myVec, int indexOfVec);
-        int hash(vector<int> myVec, int indexOfVec);
+        int vec2Int(vector<int> myVec, int indexOfTier);
+        int hash(vector<int> myVec, int indexOfTier);
 
         // propagation forward
         void learnOnce(vector<vector<int> > aData, float label, float learnRate=0.2);
         void learnAll(float learnRate = 0.2);
+
+        void predict(vector<float> vec);
 };
 
 #endif // CMAC_H
