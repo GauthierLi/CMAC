@@ -1,10 +1,15 @@
 #include<bits/stdc++.h>
 #include<iostream>
+#include<string>
+#include<map>
 #include"dataKit.h"
 #include"CMAC.h"
+#include<ctime>
+#define rand(x) rand()%x/(float)(100*x)
 using namespace std;
 
 int main(){
+    srand((int)time(0));
     float *p1;
     CMAC newCmac;
     p1 = (float*)malloc(sizeof(float));
@@ -14,7 +19,7 @@ int main(){
     vector<vector<float> > a = {{3,4,6},{4.5,6,8},{2,7,5}};
     vector<float> labelA = {1,0,1};
 
-    newCmac.initCMAC(a,labelA,3,10);
+    newCmac.initCMAC(a,labelA,3,6);
     printf("before normalization\n");
     printVec2D(a);
     printf("after normalization\n");
@@ -47,5 +52,6 @@ int main(){
         printf("\n");
     }
 
+    printf("random number: %f", rand(10));
     return 0;
 }

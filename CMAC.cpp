@@ -1,19 +1,22 @@
 #include "CMAC.h"
 #include "dataKit.h"
-#include <utility>
+#include <cmath>
 #include<vector>
 #include<cstdlib>
 #include<iostream>
+#include<ctime>
+#define rand(x) rand()%x/(float)(100*x)
 using namespace std;
 
-vector<vector<float> > transVec(vector<vector<float> > mat){
+template <typename T>
+vector<vector<T> > transVec(vector<vector<T> > mat){
     //转置
-    vector<vector<float> > tempVec;
+    vector<vector<T> > tempVec;
     int col;
     col = mat[0].size();
     int row = mat.size();
     for(int i = 0; i<row; i++){
-        vector<float> tmptmpVec;
+        vector<T> tmptmpVec;
         for(int j = 0; j < col; j++){
             tmptmpVec.push_back(mat[j][i]);
         }
@@ -23,26 +26,46 @@ vector<vector<float> > transVec(vector<vector<float> > mat){
 }
 
 void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int numOfTierI/**层数*/,int numOfQualifyI){
+    printf("processing deal with dataset\n");
     CMAC::dataSet = move(dataSetI);
+    printf("processing deal with labels\n");
     CMAC::labels = move(labelsI);
+    printf("processing deal with tiers\n");
     CMAC::numOfTier = numOfTierI;
+    printf("processing deal with qualify\n");
     CMAC::numOfQualify = numOfQualifyI;
     CMAC::numOfInput = (int) CMAC::dataSet[0].size();
 
     // init with normalize all data
+    printf("processing deal with normalization\n");
     normalization();
     // get the standard of qualification matrix
+    printf("processing deal with get qualify standard\n");
     getQualVec();
     // qualified all data
+    printf("processing deal with qualify all data\n");
     getAllQualData();
 
-    //init the origin pointer
-    int numOfAC = 0;
-    for(auto & i : qualVec){
-        numOfAC += ((int)i.size() + 1)*((int)i.size() + 1);
+    lookLook();
+    printf("processing deal with learning\n");
+    learnAll();
+}
+
+void CMAC::lookLook(){
+    printf("--------------------- all data and labels -----------------------\n");
+    printf("print all modified data:\n");
+    int count = 0;
+    for(auto & i : CMAC::qualData){
+        for(auto & j : i){
+            printf("[");
+            for(auto & k : j){
+                printf("%d ", k);
+            }
+            printf("],");
+        }
+        printf("label: %f",CMAC::labels[count++]);
+        printf("\n");
     }
-    printf("num of ac %d \n",numOfAC);
-    CMAC::origin = (float *) malloc(sizeof(float) * numOfAC);
 }
 
 void CMAC::normalization(){
@@ -82,6 +105,7 @@ vector<vector<int> > CMAC::get1QualData(vector<float> data) {
         }
         result.push_back(tmp);
     }
+    result = transVec(result);
     return result;
 }
 
@@ -91,8 +115,60 @@ void CMAC::getAllQualData() {
     }
 }
 
-int CMAC::hash(vector<int>) {
+int CMAC::vec2Int(vector<int> myVec, int indexOfVec) {
+    /*
+     * first modified myvec into a real num, like 101011,
+     * to avoid the conflict of 0101 and 00101, we use a
+     * bias of indexOfVec * 10^(myVec.size())
+     *
+     * parameter indexOfVec represent the index of index of variable,
+     * like x= [x_1,x_2,x_3,...,]
+     * */
+    int lenth = (int)myVec.size();
+    int numberAfterModify = (int)pow(10., (float)lenth) * indexOfVec;
+    for(int i = 0; i < lenth; i++){
+        numberAfterModify += (int)pow(10., (float)(lenth - i - 1)) * myVec[i];
+    }
+    return numberAfterModify;
+}
 
+int CMAC::hash(vector<int> myVec, int indexOfVec) {
+    srand((int)time(0));
+    int numberAfterModify = CMAC::vec2Int(myVec, indexOfVec);
+    //printf("%d\n", numberAfterModify);
+    if (CMAC::storageUnit.find(numberAfterModify) == CMAC::storageUnit.end()){
+        float randNum = rand(10);
+        CMAC::storageUnit[numberAfterModify] = randNum;
+    }
     return 0;
 }
+
+void CMAC::learnOnce(vector<vector<int>> aData, float label, float learnRate) {
+    float result = 0.;
+    float count = (float)aData.size();
+    int index = 0;
+    for(auto & i : aData){
+        int numberAfterModify = CMAC::vec2Int(i, index);
+        CMAC::hash(i, index);
+        result += CMAC::storageUnit[numberAfterModify];
+        index++;
+    }
+    float error = label - result;
+    index = 0;
+    for(auto & i : aData){
+        int numberAfterModify = CMAC::vec2Int(i, index);
+        CMAC::storageUnit[numberAfterModify] = learnRate * error / count;
+    }
+}
+
+void CMAC::learnAll(float learnRate) {
+    printf("in\n");
+    int mountOfData = (int) CMAC::qualData.size();
+    for(int i = 0; i < mountOfData; i++){
+        printf("learning %d\n", i);
+        CMAC::learnOnce(CMAC::qualData[i], CMAC::labels[i], learnRate);
+    }
+}
+
+
 

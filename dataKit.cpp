@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 void printVecOneD(vector<float> vec) {
     /** print 1D vector */
     for (float &it: vec) {
