@@ -23,19 +23,22 @@ class CMAC
         //used to map qualData to real address
         map<int, float> storageUnit;
 
+        //use to storage the changing of the error
+        vector<float> errorVec;
+
         // dimension of input data
         int numOfInput;
         // dimension of Tier
         int numOfTier;
+        int numOfEpoch;
         int numOfQualify;
-        vector<float> output;
 
         //print all information of parameters
         void lookLook();
 
         void normalization();
         void initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,
-                           int numOfTierI/**层数*/,int numOfQualifyI, float learnRate=0.2);
+                           int numOfTierI/**层数*/,int numOfQualifyI,int epoch, float learnRate=0.2);
         void getQualVec();
         vector<vector<int> > get1QualData(vector<float> data);
         void getAllQualData();
@@ -48,7 +51,7 @@ class CMAC
         void learnOnce(vector<vector<int> > aData, float label, float learnRate=0.2);
         void learnAll(float learnRate = 0.2);
 
-        void predict(vector<float> vec);
+        float predict(vector<float> vec, int show = 1);
 };
 
 #endif // CMAC_H

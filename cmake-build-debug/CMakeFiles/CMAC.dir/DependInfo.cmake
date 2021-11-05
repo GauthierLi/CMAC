@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "E:/C++/CMAC/CMAC.cpp" "E:/C++/CMAC/cmake-build-debug/CMakeFiles/CMAC.dir/CMAC.cpp.obj"
   "E:/C++/CMAC/dataKit.cpp" "E:/C++/CMAC/cmake-build-debug/CMakeFiles/CMAC.dir/dataKit.cpp.obj"
   "E:/C++/CMAC/main.cpp" "E:/C++/CMAC/cmake-build-debug/CMakeFiles/CMAC.dir/main.cpp.obj"
+  "E:/C++/CMAC/readAndWrite.cpp" "E:/C++/CMAC/cmake-build-debug/CMakeFiles/CMAC.dir/readAndWrite.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

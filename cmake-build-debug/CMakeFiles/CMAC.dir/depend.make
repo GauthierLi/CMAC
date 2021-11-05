@@ -11,4 +11,7 @@ CMakeFiles/CMAC.dir/dataKit.cpp.obj: \
 CMakeFiles/CMAC.dir/main.cpp.obj: \
  ../CMAC.h \
  ../dataKit.h \
- ../main.cpp
+ ../main.cpp \
+ ../readAndWrite.cpp
+CMakeFiles/CMAC.dir/readAndWrite.cpp.obj: \
+ ../readAndWrite.cpp

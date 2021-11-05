@@ -95,6 +95,9 @@
 		<Unit filename="E:/C++/CMAC/main.cpp">
 			<Option target="CMAC"/>
 		</Unit>
+		<Unit filename="E:/C++/CMAC/readAndWrite.cpp">
+			<Option target="CMAC"/>
+		</Unit>
 		<Unit filename="E:/C++/CMAC/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

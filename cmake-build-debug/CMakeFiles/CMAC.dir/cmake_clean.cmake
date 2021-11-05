@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/CMAC.dir/CMAC.cpp.obj"
   "CMakeFiles/CMAC.dir/dataKit.cpp.obj"
   "CMakeFiles/CMAC.dir/main.cpp.obj"
+  "CMakeFiles/CMAC.dir/readAndWrite.cpp.obj"
   "libCMAC.dll.a"
 )
 

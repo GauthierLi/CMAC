@@ -200,6 +200,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMAC.dir\build.make CMakeFiles/CMAC.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+readAndWrite.obj: readAndWrite.cpp.obj
+.PHONY : readAndWrite.obj
+
+# target to build an object file
+readAndWrite.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMAC.dir\build.make CMakeFiles/CMAC.dir/readAndWrite.cpp.obj
+.PHONY : readAndWrite.cpp.obj
+
+readAndWrite.i: readAndWrite.cpp.i
+.PHONY : readAndWrite.i
+
+# target to preprocess a source file
+readAndWrite.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMAC.dir\build.make CMakeFiles/CMAC.dir/readAndWrite.cpp.i
+.PHONY : readAndWrite.cpp.i
+
+readAndWrite.s: readAndWrite.cpp.s
+.PHONY : readAndWrite.s
+
+# target to generate assembly for a file
+readAndWrite.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\CMAC.dir\build.make CMakeFiles/CMAC.dir/readAndWrite.cpp.s
+.PHONY : readAndWrite.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -218,6 +242,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... readAndWrite.obj
+	@echo ... readAndWrite.i
+	@echo ... readAndWrite.s
 .PHONY : help
 
 

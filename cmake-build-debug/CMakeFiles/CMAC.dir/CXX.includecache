@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+E:/C++/CMAC/CMAC.cpp
+CMAC.h
+E:/C++/CMAC/CMAC.h
+dataKit.h
+E:/C++/CMAC/dataKit.h
+cmath
+-
+vector
+-
+cstdlib
+-
+iostream
+-
+ctime
+-
+
 E:/C++/CMAC/CMAC.h
 vector
 -
@@ -23,7 +39,7 @@ bits/stdc++.h
 -
 iostream
 -
-string
+cstring
 -
 map
 -
@@ -31,6 +47,24 @@ dataKit.h
 E:/C++/CMAC/dataKit.h
 CMAC.h
 E:/C++/CMAC/CMAC.h
+readAndWrite.cpp
+E:/C++/CMAC/readAndWrite.cpp
 ctime
+-
+vector
+-
+cmath
+-
+
+E:/C++/CMAC/readAndWrite.cpp
+cstdio
+-
+vector
+-
+cstring
+-
+iostream
+-
+fstream
 -
 

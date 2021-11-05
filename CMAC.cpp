@@ -24,7 +24,9 @@ vector<vector<T> > transVec(vector<vector<T> > mat){
     return tempVec;
 }
 
-void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int numOfTierI/**层数*/,int numOfQualifyI, float learnRate){
+void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int numOfTierI/**层数*/
+,int numOfQualifyI, int epoch, float learnRate){
+    CMAC::numOfEpoch = epoch;
     printf("processing deal with dataset\n");
     CMAC::dataSet = move(dataSetI);
     printf("processing deal with labels\n");
@@ -47,7 +49,7 @@ void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int n
 
     // learning process
     printf("processing deal with learning\n");
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < epoch; i++){
         CMAC::learnAll(learnRate);
     }
     CMAC::lookLook();
@@ -55,6 +57,8 @@ void CMAC::initCMAC(vector<vector<float> > dataSetI, vector<float> labelsI,int n
 }
 
 void CMAC::lookLook(){
+    printf("-------------------------- parameters ---------------------------\n");
+    printf("num of tier: %d, learning epoch:%d\n",CMAC::numOfTier, CMAC::numOfEpoch);
     printf("--------------------- all data and labels -----------------------\n");
     printf("print all data \n");
     printVec2D(CMAC::dataSet);
@@ -80,7 +84,7 @@ void CMAC::lookLook(){
         printf("label: %f",CMAC::labels[count++]);
         printf("\n");
     }
-    printf("------------------------- end -----------------------------------\n");
+    printf("------------------------- end with error %f -----------------------------------\n",*(CMAC::errorVec.end()));
 }
 
 void CMAC::normalization(){
@@ -115,7 +119,7 @@ vector<vector<int> > CMAC::get1QualData(vector<float> data) {
         for(int j = 0; j < CMAC::numOfTier; j++){
             int tmpInt = 0;
             for(auto & k : CMAC::qualVec[j]){
-                if (10*i >= k){
+                if (CMAC::numOfQualify*i >= k){
                     tmpInt++;
                 }else{
                     break;
@@ -170,7 +174,8 @@ void CMAC::learnOnce(vector<vector<int>> aData, float label, float learnRate) {
         result += CMAC::storageUnit[numberAfterModify];
     }
     float error = label - result;
-    printf("error : %f\n", error);
+//    printf("error : %f\n", error);
+    CMAC::errorVec.push_back(error);
     index = 0;
     for(auto & i : aData){
         int numberAfterModify = CMAC::vec2Int(i, index++);
@@ -186,23 +191,29 @@ void CMAC::learnAll(float learnRate) {
     }
 }
 
-void CMAC::predict(vector<float> vec) {
+float CMAC::predict(vector<float> vec, int show) {
     vector<float> vec_ = vec;
     int lenth = (int)vec_.size();
     for(int i = 0; i < lenth; i++){
         vec_[i] = (vec_[i] - CMAC::mini[i] )/(CMAC::maxi[i] - CMAC::mini[i]);
     }
-    printf("after min max scale: \n");
-    printVecOneD(vec_);
+    if(show == 1){
+        printf("after min max scale: \n");
+        printVecOneD(vec_);
+    }
+
     vector<vector<int> > afterQual;
     afterQual = CMAC::get1QualData(vec_);
-    printf("after qualification \n");
-    for(auto & i : afterQual){
-        printf("[");
-        for(auto & j : i){
-            printf("%d ",j);
+
+    if(show == 1){
+        printf("after qualification \n");
+        for(auto & i : afterQual){
+            printf("[");
+            for(auto & j : i){
+                printf("%d ",j);
+            }
+            printf("],");
         }
-        printf("],");
     }
 
     float result = 0;
@@ -211,7 +222,10 @@ void CMAC::predict(vector<float> vec) {
         int index = CMAC::vec2Int(i, tier++);
         result += CMAC::storageUnit[index];
     }
-    CMAC::output.push_back(result);
-    printf("predict result :%f\n", result);
+    if(show==1){
+        printf("predict result :%f\n", result);
+    }
+
+    return result;
 }
 
